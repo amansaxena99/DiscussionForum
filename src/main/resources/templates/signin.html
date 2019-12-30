@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/add_discussion.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <title>Discussions
+    </title>
+  </head>
+  <body>
+    <nav th:insert="fragments/no_user_navbar.html"> </nav>
+    <br>
+    <br>
+    <br>
+	  <div class="container">
+	    <div class="row">
+	      <div class="col-lg-10 col-xl-9 mx-auto">
+	        <div class="card card-signin flex-row my-5">
+	          <div class="card-img-left d-none d-md-flex">
+	             <!-- Background image for card set in CSS! -->
+	          </div>
+	          <div class="card-body">
+	            <h5 class="card-title text-center">Sign In</h5>
+	            <form class="form-signin" th:object="${user}" method="post">
+	              <div class="form-label-group">
+	                <input type="email" th:field="*{email}" id="email" class="form-control" th:placeholder="Email" required autofocus>
+	                <label for="email">Email address</label>
+	              </div>
+	              
+	              <div class="form-label-group">
+	                <input type="password" th:field="*{password}" id="password" class="form-control" th:placeholder="Password" required>
+	                <label for="password">Password</label>
+	              </div>
+	
+	              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign In</button>
+	              <a class="d-block text-center mt-2 small" href="signup">Sign Up</a>
+	            </form>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+  </body>
+</html>

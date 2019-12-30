@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/add_discussion.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <title>Discussions
+    </title>
+    <script type="text/javascript">
+        document.getElementById("newCommentPostId").value = "8";
+	</script>
+  </head>
+  <body>
+    <div th:insert="fragments/user_navbar.html"> </div>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+    	<div class="row">
+        	<div class="col-lg-10 col-xl-9 mx-auto">
+       			<div class="row my-4" style="display: flex; justify-content: flex-end">
+	        	<form class="form-inline" th:action="@{/discussions}" method="get">
+	                <input type="text" th:value="${searchFor}" name="searchFor" class="form-control mr-sm-4" placeholder="Search" required>
+	                <button class="btn btn-primary" type="submit">Search</button>
+	            </form>
+	            </div>
+        		<div th:if="${searchResult} == 1" class="my-5" style="display: flex; justify-content: space-between">
+        			<h5 th:text="|showing ${discussions.numberOfElements} results of ${discussions.totalElements}|">Search Results : </h5>
+        			<a th:href="|/discussions?pageNo=${pageNo}&pageSize=${pageSize}|">Clear</a>
+        		</div>
+            	<div class="card card-signin flex-row my-5" th:each="discussion: ${discussions.content}">
+                	<div class="card-body">
+                		<div style="display: flex; justify-content: space-between">
+                    		<a th:href="|userProfile?userId=${discussion.user.userId}|"><h6 th:text="${discussion.user.Name}">Name</h6></a>
+                    		<p th:text="${discussion.createdOn}">Date</p>
+                    	</div>
+                    	<a th:href="|post/${discussion.postId}|"><h5 class="card-title text-center" th:text="${discussion.subject}">Subject</h5></a>
+                    	<p th:text="${discussion.description}">Description</p>
+                    	<br>
+                    	<div style="display: flex; justify-content: space-between">
+                    		<div th:if="${#lists.size(discussion.comments)} == 0">
+                    			<a th:text="|No Comments|" th:href="|post/${discussion.postId}|">Comments</a>
+                    		</div>
+                    		<div th:if="${#lists.size(discussion.comments)} > 0">
+                    			<a th:text="|Comment: ${#lists.size(discussion.comments)}|" th:href="|post/${discussion.postId}|">Comments</a>
+                    		</div>
+                    		<p align="right" th:text="|Last Updated: ${discussion.updatedOn}|">Last Updated</p>
+                    	</div>
+                    	<br>
+                  	</div>
+                </div>
+                <nav aria-label="Page navigation example" th:object="${pageNo}">
+					  <ul class="pagination justify-content-end">
+					  	<li th:class="${pageNo} == 1 ? disabled + ' page-item' : page-item"><a th:href="|/discussions?pageNo=1&pageSize=${pageSize}&searchFor=${searchFor}|" class="page-link">First</a></li>
+					    <li th:class="${pageNo} == 1 ? disabled + ' page-item' : page-item">
+					    	<a th:href="|/discussions?pageNo=| + (${pageNo}-1) + |&pageSize=${pageSize}&searchFor=${searchFor}|" class="page-link"><span aria-hidden="true">&laquo;</span></a>
+					    </li>
+					    <li th:each="no : ${#numbers.sequence(1, discussions.totalPages)}" th:class="${no} == ${pageNo} ? page-item + ' active': active">
+					    	<a th:href="|/discussions?pageNo=| + (${no}) + |&pageSize=${pageSize}&searchFor=${searchFor}|" class="page-link" th:text="${no}"></a>
+					    </li>
+					    <li th:class="${pageNo} == ${discussions.totalPages} ? disabled + ' page-item' : page-item">
+					    	<a th:attr="href=|/discussions?pageNo=| + (${pageNo}+1) + |&pageSize=${pageSize}&searchFor=${searchFor}|" class="page-link"><span aria-hidden="true">&raquo;</span></a>
+					    </li>
+					    <li th:class="${pageNo} == ${discussions.totalPages} ? disabled + ' page-item' : page-item"><a th:href="|/discussions?pageNo=${discussions.totalPages}&pageSize=${pageSize}&searchFor=${searchFor}|" class="page-link">Last</a></li>
+					  </ul>
+				</nav>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
